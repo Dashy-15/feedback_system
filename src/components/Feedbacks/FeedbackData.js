@@ -1,4 +1,5 @@
 import FeedbackList from "../FeedbackList/FeedbackList";
+import "./FeedbackData.css"
 
 const FeedbackData = (props) => {
     return (
@@ -7,8 +8,11 @@ const FeedbackData = (props) => {
             {props.feedbacks.map((feedback) => (
                 <FeedbackList
                     key={feedback.id}
+                    id={feedback.id}
                     name={feedback.name}
                     rating={feedback.rating}
+                    onDelete={props.onDeleteItem}
+                    onEdit={props.onEditItem}
                 />
             ))}
         </div>

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import "./FeedbackForm.css"
 
 const FeedbackForm = (props) => {
     const [input, setInput] = useState({
@@ -29,17 +30,27 @@ const FeedbackForm = (props) => {
         const reviews = {
             name: input.enteredName,
             rating: input.selectedRating,
-            id: Math.random().toString()
+            id: props.editFbItem ? props.editFbItem.id : Math.random().toString()
         };
+
         props.onReviewData(reviews);
         setInput({
             enteredName: "",
             selectedRating: "1"
-        });
+        });   
     }
 
+    useEffect(() => {
+        if(props.editFbItem){
+            setInput({
+                enteredName: props.editFbItem.name,
+                selectedRating: props.editFbItem.rating
+            });
+        }
+    }, [props.editFbItem])
+
     return (
-        <form onSubmit={formSubmitHandler}>
+        <form className="feedback-form" onSubmit={formSubmitHandler}>
             <div>
                 <div>
                     <h2>Feedback Form</h2>
@@ -60,7 +71,7 @@ const FeedbackForm = (props) => {
                 </div>
             </div>
             <div>
-                <button type="submit">Submit</button>
+                <button type="submit">{props.editFbItem ? "Edit Rating" : "Submit"}</button>
             </div>
         </form>
     );
